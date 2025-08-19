@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>In situ Monitoring Ocean Parks</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f8f9fa;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Navigation Bar */
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 1rem 0;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #4ade80;
+    }
+
+    /* Hero Section with Background Image */
+    .hero {
+      height: 100vh;
+      background: url('https://images.unsplash.com/photo-1509544974371-668e287ad4f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      color: white;
+      text-align: center;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5); /* Dark overlay for readability */
+      z-index: 1;
+    }
+
+    .hero-content {
+      z-index: 2;
+      max-width: 800px;
+      padding: 2rem;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    /* Organizer Section */
+    .organizer {
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+      margin: 3rem 0;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      flex: 0 0 150px;
+    }
+
+    .logo img {
+      width: 100%;
+      height: auto;
+    }
+
+    .org-info {
+      flex: 1;
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+
+    /* Buttons */
+    .btn-container {
+      display: flex;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .btn {
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      opacity: 0.9;
+    }
+
+    .btn-register {
+      background-color: #16a34a;
+      color: white;
+    }
+
+    .btn-submit {
+      background-color: #2563eb;
+      color: white;
+    }
+
+    .btn-contact {
+      background-color: #d1d5db;
+      color: #1f2937;
+    }
+
+    /* Deadline */
+    .deadline {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin: 1.5rem 0;
+      color: #1f2937;
+    }
+
+    /* Share Section */
+    .share-section {
+      margin: 2rem 0;
+    }
+
+    .share-btn {
+      background-color: #6b7280;
+      color: white;
+      padding: 0.6rem 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 500;
+      margin-right: 1rem;
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .social-icons a {
+      color: #4b5563;
+      font-size: 1.5rem;
+      transition: color 0.3s;
+    }
+
+    .social-icons a:hover {
+      color: #2563eb;
+    }
+
+    /* Registration & Cancellation */
+    .section {
+      margin: 3rem 0;
+    }
+
+    .section h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: #1f2937;
+      border-bottom: 2px solid #4ade80;
+      padding-bottom: 0.5rem;
+    }
+
+    .section p, .section ul {
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+
+    .small-text {
+      font-size: 0.85rem;
+      color: #6b7280;
+      margin-top: 2rem;
+      line-height: 1.6;
+    }
+
+    /* Agenda & Abstracts */
+    .coming-soon {
+      font-style: italic;
+      color: #6b7280;
+      font-size: 1.1rem;
+    }
+
+    .abstract-btn {
+      background-color: #dbeafe;
+      color: #2563eb;
+      padding: 0.8rem 1.5rem;
+      border: 2px solid #2563eb;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      margin: 1rem 0;
+      transition: background-color 0.3s;
+    }
+
+    .abstract-btn:hover {
+      background-color: #eff6ff;
+    }
+
+    .deadline-abstract {
+      font-weight: 600;
+      color: #1f2937;
+      font-size: 1.1rem;
+    }
+
+    /* Organizers - Committee */
+    .committee {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .scientist {
+      flex: 1 1 200px;
+      background-color: #f3f4f6;
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .scientist h4 {
+      margin-bottom: 0.3rem;
+      color: #1f2937;
+    }
+
+    .scientist p {
+      font-size: 0.9rem;
+      color: #4b5563;
+    }
+
+    /* Venue & Travel */
+    .venue-info {
+      line-height: 1.8;
+    }
+
+    .visa-info {
+      margin-top: 2rem;
+      font-style: italic;
+      color: #6b7280;
+      font-size: 0.95rem;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2rem 0;
+      background-color: #1f2937;
+      color: white;
+      margin-top: 3rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#registration">Registration</a>
+    <a href="#agenda">Agenda</a>
+    <a href="#abstracts">Abstracts</a>
+    <a href="#organizers">Organizers</a>
+    <a href="#venue">Venue & Travel</a>
+    <a href="#sponsors">Sponsors</a>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <h1>In situ Monitoring Ocean Parks</h1>
+      <p>Advancing Marine Conservation through Real-Time Environmental Surveillance</p>
+    </div>
+  </section>
+
+  <!-- Organizer Section -->
+  <div class="container">
+    <section class="organizer" id="organizers">
+      <div class="logo">
+        <img src="https://via.placeholder.com/150/2563eb/FFFFFF?text=Nature+Research" alt="Nature Research Logo">
+      </div>
+      <div class="org-info">
+        <p><strong>Nature Research</strong> is a leading scientific publisher committed to advancing sustainable ocean conservation.</p>
+        <p>We organize global conferences to bring together scientists, policymakers, and technologists.</p>
+        <p>This conference focuses on real-time monitoring of marine protected areas using in situ technologies.</p>
+        <p>Our mission is to foster innovation in ocean observation and data-driven conservation strategies.</p>
+        <p>We collaborate with academic institutions, NGOs, and government agencies worldwide.</p>
+        <p>Our editorial teams from <em>Nature Climate Change</em>, <em>Nature Sustainability</em>, and <em>Nature Communications</em> are involved.</p>
+        <p>Proceedings will be published in a special issue of a Nature journal.</p>
+        <p>We ensure rigorous peer review and high scientific standards.</p>
+        <p>Contact us for partnership or media opportunities.</p>
+        <p>Follow us on social media for updates.</p>
+      </div>
+    </section>
+
+    <!-- Buttons -->
+    <div class="btn-container">
+      <button class="btn btn-register" onclick="alert('Redirecting to Registration...')">Register Now</button>
+      <button class="btn btn-submit" onclick="alert('Redirecting to Abstract Submission...')">Submit</button>
+      <button class="btn btn-contact" onclick="document.getElementById('contact').scrollIntoView()">Contact Us</button>
+    </div>
+
+    <!-- Deadline -->
+    <div class="deadline">
+      The current deadline to register is: <br>
+      <strong>September 21, 2025 – 5:59 PM</strong>
+    </div>
+
+    <!-- Share Section -->
+    <div class="share-section">
+      <button class="share-btn">SHARE</button>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-x-twitter"></i></a>
+      </div>
+    </div>
+
+    <!-- Registration Section -->
+    <section class="section" id="registration">
+      <h2>Registration</h2>
+      <p>Your registration includes the following unless otherwise stated. Items typically are:</p>
+      <ul>
+        <li>All scientific presentations</li>
+        <li>Poster sessions</li>
+        <li>Meals as indicated in the conference program</li>
+        <li>Program book</li>
+      </ul>
+
+      <h3>Cancellation Policy</h3>
+      <p>Cancellation of registration should be made in writing to the Organizer Secretariat. 50% of the registration fee will be refunded if the cancellation is received between July 20 and August 10, 2025.</p>
+      <p><strong>No refund for cancellation will be made from August 11 onward.</strong></p>
+
+      <p><strong>Questions?</strong><br>
+      For questions regarding the registration for this conference, please contact us.</p>
+
+      <p class="small-text">
+        At Nature Research we collect, process and store your details to enable you to attend this conference as a delegate. For that purpose, we also need to share this information with our partners or sponsors, for example, in the production of conference program materials like participant lists and name badges. We may use this information internally within Nature Research for analysis purposes but we won’t share it with any third parties who are not associated with this conference unless we have your permission as detailed in our <a href="#" style="color: #2563eb;">Privacy Policy</a>.
+      </p>
+    </section>
+
+    <!-- Agenda Section -->
+    <section class="section" id="agenda">
+      <h2>Agenda</h2>
+      <p class="coming-soon">Full conference program coming soon.</p>
+    </section>
+
+    <!-- Abstracts Section -->
+    <section class="section" id="abstracts">
+      <h2>Abstracts</h2>
+      <button class="abstract-btn">Submit Your Abstract</button>
+      <p class="deadline-abstract">Submission Deadline Extended to: September 2, 2025</p>
+
+      <p class="small-text">
+        <strong>General Information</strong><br>
+        The Scientific Committee will select abstracts from conference registrants for poster presentations or short oral talks. The committee is composed of Nature journals editors and scientists from the conference's partner or sponsor organizations.<br><br>
+        <a href="#" style="color: #2563eb;">Click here</a> to download a sample abstract document and instructions on preparing your file.<br><br>
+        <strong>Please note:</strong> In order to be accepted to present you must also be registered for the conference.<br><br>
+        <strong>For visa applicants:</strong> If you need an accepted abstract in order to apply for a visa, the Scientific Committee can review your abstract in advance. First, submit your abstract using the portal, and then send an email, stating that you have completed the submission process and need your abstract reviewed for visa purposes.<br><br>
+        <strong>Questions?</strong><br>
+        For questions regarding abstract submissions, please use the contact us button or email <a href="mailto:abstracts@natureconf.org" style="color: #2563eb;">abstracts@natureconf.org</a>.
+      </p>
+    </section>
+
+    <!-- Organizers - Scientific Committee -->
+    <section class="section" id="organizers">
+      <h2>Organizers</h2>
+      <p>Scientific Committee Members:</p>
+      <div class="committee">
+        <div class="scientist">
+          <h4>Dr. Elena Marin</h4>
+          <p>Marine Biologist, OceanX</p>
+        </div>
+        <div class="scientist">
+          <h4>Prof. James Reed</h4>
+          <p>Environmental Science, MIT</p>
+        </div>
+        <div class="scientist">
+          <h4>Dr. Sofia Kim</h4>
+          <p>Remote Sensing, NASA</p>
+        </div>
+        <div class="scientist">
+          <h4>Prof. Luca Moretti</h4>
+          <p>Marine Policy, University of Bologna</p>
+        </div>
+        <div class="scientist">
+          <h4>Dr. Amina Diallo</h4>
+          <p>Conservation Genetics, Senegal Institute</p>
+        </div>
+        <div class="scientist">
+          <h4>Prof. Henrik Larsen</h4>
+          <p>Climate Oceanography, DTU</p>
+        </div>
+        <div class="scientist">
+          <h4>Dr. Clara Wong</h4>
+          <p>AI for Marine Monitoring, Stanford</p>
+        </div>
+        <div class="scientist">
+          <h4>Prof. Dimitris Papadopoulos</h4>
+          <p>Hellenic Centre for Marine Research</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Venue & Travel -->
+    <section class="section" id="venue">
+      <h2>Venue & Travel</h2>
+      <div class="venue-info">
+        <p><strong>Location:</strong> Athens, Greece</p>
+        <p><strong>Venue:</strong> Stavros Niarchos Foundation Cultural Center (SNFCC)</p>
+        <p>A world-class facility located by the Saronic Gulf, combining sustainability, architecture, and technology.</p>
+        <p>The conference will be held in the state-of-the-art auditorium and exhibition halls.</p>
+        <p><strong>Accommodation:</strong> Special rates available at partner hotels in central Athens.</p>
+        <p><strong>Transport:</strong> The venue is accessible via metro, bus, and taxi. Free shuttle from major hotels.</p>
+        <p><strong>Local Attractions:</strong> Acropolis, National Garden, Plaka, and coastal walks.</p>
+        <p><strong>Climate:</strong> September in Athens is warm and sunny, averaging 28°C (82°F).</p>
+
+        <p class="visa-info">
+          <strong>Travel Visa</strong><br>
+          Please contact your nearest Greece embassy or consulate in your country to see if you require a visa to enter Greece and to check your specific entry requirements.
+        </p>
+      </div>
+    </section>
+
+    <!-- Sponsors Placeholder -->
+    <section class="section" id="sponsors">
+      <h2>Sponsors</h2>
+      <p>Our conference is supported by leading scientific and environmental organizations. For sponsorship opportunities, contact us.</p>
+      <!-- Logos can be added here -->
+    </section>
+
+    <!-- Contact Anchor -->
+    <div id="contact" style="height: 50px;"></div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Nature Research. All rights reserved. | In situ Monitoring Ocean Parks Conference</p>
+  </footer>
+
+  <script>
+    // Smooth scroll for navigation
+    document.querySelectorAll('nav a').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          window.scrollTo({
+            top: target.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
